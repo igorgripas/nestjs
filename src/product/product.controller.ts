@@ -7,11 +7,11 @@ import {
 	NotFoundException,
 	Param,
 	Patch,
-	Post, UseGuards,
+	Post,
+	UseGuards,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common';
-import {ProductModel} from './product.model';
 import {FindProductDto} from './dto/find-product-dto';
 import {CreateProductDto} from './dto/create-product.dto';
 import {ProductService} from './product.service';

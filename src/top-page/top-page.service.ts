@@ -31,6 +31,10 @@ export class TopPageService {
     return this.topPageModel.findOne({ alias: alias }).exec()
   }
 
+  async findAll() {
+    return this.topPageModel.find({ }).exec()
+  }
+
   async findByCategory(firstCategory: TopLevelCategory) {
     return this.topPageModel
       .aggregate([{
