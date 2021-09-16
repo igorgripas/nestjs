@@ -4,6 +4,8 @@ import {DocumentType, ModelType} from '@typegoose/typegoose/lib/types';
 import {TopLevelCategory, TopPageModel} from './top-page.model';
 import {CreateTopPageDto} from './dto/create-top-page.dto';
 import {FindTopPageDto} from './dto/find-top-page.dto';
+import {addDays} from 'date-fns';
+import {Types} from 'mongoose';
 
 @Injectable()
 export class TopPageService {
@@ -23,7 +25,7 @@ export class TopPageService {
     return this.topPageModel.findByIdAndDelete(id).exec();
   }
 
-  async updateById(id: string, dto: CreateTopPageDto) {
+  async updateById(id: string | Types.ObjectId, dto: CreateTopPageDto) {
     return this.topPageModel.findByIdAndUpdate(id, dto, { new: true}).exec();
   }
 
@@ -61,6 +63,16 @@ export class TopPageService {
         $search: text,
         $caseSensitive: false,
       }
+    }).exec();
+  }
+
+  async findFoHhUpdate(date: Date) {
+    return this.topPageModel.find( {
+      firstCategory: 0,
+      $or: [
+        {'hh.updateAd': {$lt: addDays(date, -1)}},
+        {'hh.updateAd': {$exists: false}},
+  ]
     }).exec();
   }
 }
